@@ -2,13 +2,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import AdoptedPetContext from "./AdoptedPetContext";
-import Modal from "./Modal.tsx";
+import Modal from "./Modal";
 import ErrorBoundary from "./ErrorBoundary";
 import fetchPet from "./fetchPet";
 import Carousel from "./Carousel";
-
+import { PetAPIResponse } from "./APIResponsesTypes";
 const Details = () => {
   const { id } = useParams();
+  if (!id) {
+    throw new Error("Details page requires an id");
+  }
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const results = useQuery(["details", id], fetchPet);
